@@ -1,16 +1,16 @@
 # Tristan Kaiser
 # Plotly Maps
 # 10/11/2016
-install.packages("plotly")
-
+#install.packages("plotly")
+library(tidyverse)
 library(plotly)
 
-dfWorks <- read.csv('C:/Users/Tristan/Desktop/RFiles/Heatmaps/Metal_Data.csv', header = TRUE, na.strings=c("", NA))
-
-# This works to produce a map for just one column
-dfWorks$Percentage <- as.numeric(sub("%", "", dfWorks$Percentage))
+read_csv("Metal_Data.csv") %>% 
+  mutate(Percentage = as.numeric(sub("%", "", Percentage)),
+         Percentage_log = ifelse(Percentage == 0, 0, log(Percentage))) -> dfWorks
 
 l <- list(color = toRGB("grey"), width = 0.5)
+
 g <- list(
   showframe = TRUE,
   showcoastlines = FALSE,
@@ -19,15 +19,22 @@ g <- list(
   showocean = TRUE,
   oceancolor = "#c6dbef"
 )
+
 m <- list(
   l = 10,
   r = 10
 )
-?add_trace
+
 p <- plot_geo(dfWorks) %>%
   add_trace(
-    z = ~Percentage, color = ~Percentage, zauto=FALSE, zmin = 1, colors = 'Reds', 
-    text = ~Country, locations = ~CountryCode, marker = list(line = l,  margin = m)
+    z = ~Percentage, 
+    color = ~Percentage_log, 
+    zauto = FALSE, 
+    zmin = 1, 
+    colors = c("white", "yellow", "red"), 
+    text = ~Country, 
+    locations = ~CountryCode, 
+    marker = list(line = l,  margin = m)
   ) %>%
   colorbar(title = '123,000 tonnes', tickprefix = '%') %>%
   layout(
