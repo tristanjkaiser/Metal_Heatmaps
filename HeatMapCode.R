@@ -1,9 +1,10 @@
 # Tristan Kaiser
 # Plotly Maps
-# 10/11/2016
-#install.packages("plotly")
+# 11/11/2016
+
 library(tidyverse)
 library(plotly)
+library(RColorBrewer)
 
 read_csv("Metal_Data.csv") %>% 
   mutate(Percentage = as.numeric(sub("%", "", Percentage)),
@@ -31,7 +32,7 @@ p <- plot_geo(dfWorks) %>%
     color = ~Percentage_log, 
     zauto = FALSE, 
     zmin = 1, 
-    colors = c("white", "yellow", "red"), 
+    colors = c("white", "#fb6a4a", "#ef3b2c", "#67000d"),
     text = ~Country, 
     locations = ~CountryCode, 
     marker = list(line = l,  margin = m)
