@@ -1,8 +1,8 @@
 # Tristan Kaiser
 # Plotly Maps
 # 10/11/2016
-install.packages("plotly")
-
+#install.packages("plotly")
+library(tidyverse)
 library(plotly)
 
 dfWorks <- read.csv('C:/Users/Tristan/Desktop/RFiles/Heatmaps/Metal_Data.csv', header = TRUE, na.strings=c("", NA))
